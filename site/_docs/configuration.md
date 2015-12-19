@@ -198,6 +198,7 @@ class="flag">flags</code> (specified on the command-line) that control them.
         <p class="description">Process and render draft posts.</p>
       </td>
       <td class="align-center">
+        <p><code class="option">show_drafts: BOOL</code></p>
         <p><code class="flag">--drafts</code></p>
       </td>
     </tr>
@@ -352,6 +353,24 @@ before your site is served.
         <p><code class="flag">--skip-initial-build</code></p>
       </td>
     </tr>
+    <tr class="setting">
+      <td>
+        <p class="name"><strong>X.509 (SSL) Private Key</strong></p>
+        <p class="description">SSL Private Key.</p>
+      </td>
+      <td class="align-center">
+        <p><code class="flag">--ssl-key</code></p>
+      </td>
+    </tr>
+    <tr class="setting">
+      <td>
+        <p class="name"><strong>X.509 (SSL) Certificate</strong></p>
+        <p class="description">SSL Public certificate.</p>
+      </td>
+      <td class="align-center">
+        <p><code class="flag">--ssl-cert</code></p>
+      </td>
+    </tr>
   </tbody>
 </table>
 </div>
@@ -363,6 +382,24 @@ before your site is served.
     default settings. Use spaces instead.
   </p>
 </div>
+
+## Custom WEBRick Headers
+
+You can provide custom headers for your site by adding them to `_config.yml`
+
+{% highlight yaml %}
+# File: _config.yml
+webrick:
+  headers:
+    My-Header: My-Value
+    My-Other-Header: My-Other-Value
+{% endhighlight %}
+
+### Defaults
+
+We only provide on default and that's a Content-Type header that disables
+caching in development so that you don't have to fight with Chrome's aggressive
+caching when you are in development mode.
 
 ## Specifying a Jekyll environment at build time
 
@@ -669,8 +706,8 @@ class Jekyll::Converters::Markdown::MyCustomProcessor
 end
 {% endhighlight %}
 
-Once you've created your class and have it properly setup either as a plugin in
-the `_plugins` folder or as a gem, specify it in your `_config.yml`:
+Once you've created your class and have it properly set up either as a plugin
+in the `_plugins` folder or as a gem, specify it in your `_config.yml`:
 
 {% highlight yaml %}
 markdown: MyCustomProcessor

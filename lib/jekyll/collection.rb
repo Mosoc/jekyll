@@ -32,7 +32,7 @@ module Jekyll
     # Override of method_missing to check in @data for the key.
     def method_missing(method, *args, &blck)
       if docs.respond_to?(method.to_sym)
-        Jekyll.logger.warn "Deprecation:", "Collection##{method} should be called on the #docs array directly."
+        Jekyll.logger.warn "Deprecation:", "#{label}.#{method} should be changed to #{label}.docs.#{method}."
         Jekyll.logger.warn "", "Called by #{caller.first}."
         docs.public_send(method.to_sym, *args, &blck)
       else
@@ -58,7 +58,11 @@ module Jekyll
         if Utils.has_yaml_header? full_path
           doc = Jekyll::Document.new(full_path, { site: site, collection: self })
           doc.read
-          docs << doc if site.publisher.publish?(doc) || !write?
+          if site.publisher.publish?(doc) || !write?
+            docs << doc
+          else
+            Jekyll.logger.debug "Skipped From Publishing:", doc.relative_path
+          end
         else
           relative_dir = Jekyll.sanitized_path(relative_directory, File.dirname(file_path)).chomp("/.")
           files << StaticFile.new(site, site.source, relative_dir, File.basename(full_path), self)
@@ -74,7 +78,7 @@ module Jekyll
     def entries
       return Array.new unless exists?
       @entries ||=
-        Dir.glob(collection_dir("**", "*.*")).map do |entry|
+        Utils.safe_glob(collection_dir, ["**", "*.*"]).map do |entry|
           entry["#{collection_dir}/"] = ''; entry
         end
     end

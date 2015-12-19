@@ -1,18 +1,81 @@
 ## HEAD
 
+### Minor Enhancements
+
+  * Add 'sample' Liquid filter Equivalent to Array#sample functionality (#4223)
+  * Cache parsed include file to save liquid parsing time. (#4120)
+  * Slightly speed up url sanitization and handle multiples of ///. (#4168)
+  * Print debug message when a document is skipped from reading (#4180)
+  * Include tag should accept multiple variables in the include name (#4183)
+  * Add `-o` option to serve command which opens server URL (#4144)
+  * Add CodeClimate platform for better code quality. (#4220)
+  * General improvements for WEBrick via jekyll serve such as SSL & custom headers (#4224, #4228)
+  * Add a default charset to content-type on webrick. (#4231)
+  * Switch `PluginManager` to use `require_with_graceful_fail` for better UX (#4233)
+  * Allow quoted date in front matter defaults (#4184)
+  * Add a Jekyll doctor warning for URLs that only differ by case (#3171)
+
 ### Bug Fixes
 
+  * Pass build options into `clean` command (#4177)
+  * Allow users to use .htm and .xhtml (XHTML5.) (#4160)
+  * Prevent Shell Injection. (#4200)
+  * Convertible should make layout data accessible via `layout` instead of `page` (#4205)
+  * Avoid using `Dir.glob` with absolute path to allow special characters in the path (#4150)
+  * Handle empty config files (#4052)
+
+### Development Fixes
+
+  * `jekyll-docs` should be easily release-able (#4152)
+  * Allow use of Cucumber 2.1 or greater (#4181)
+  * Modernize Kramdown for Markdown converter. (#4109)
+  * Change TestDoctorCommand to JekyllUnitTest... (#4263)
+
+### Site Enhancements
+
+  * Add three plugins to directory (#4163)
+  * Add upgrading docs from 2.x to 3.x (#4157)
+  * Add `protect_email` to the plugins index. (#4169)
+  * Add `jekyll-deploy` to list of third-party plugins (#4179)
+  * Clarify plugin docs (#4154)
+  * Add Kickster to deployment methods in documentation (#4190)
+  * Add DavidBurela's tutorial for Windows to Windows docs page (#4210)
+  * Change GitHub code block to highlight tag to avoid it overlaps parent div (#4121)
+  * Update FormKeep link to be something more specific to Jekyll (#4243)
+  * Remove example Roger Chapman site, as the domain doesn't exist (#4249)
+  * Added configuration options for `draft_posts` to configuration docs (#4251)
+  * Fix checklist in _assets.md (#4259)
+
+## 3.0.1 / 2015-11-17
+
+### Bug Fixes
+
+  * Document: only superdirectories of the collection are categories (#4110)
   * `Convertible#render_liquid` should use `render!` to cause failure on bad Liquid (#4077)
   * Don't generate `.jekyll-metadata` in non-incremental build (#4079)
   * Set `highlighter` config val to `kramdown.syntax_highlighter` (#4090)
+  * Align hooks implementation with documentation (#4104)
+  * Fix the deprecation warning in the doctor command (#4114)
+  * Fix case in `:title` and add `:slug` which is downcased (#4100)
+  * Rename @options so that it does not impact Liquid. (#4173)
 
 ### Development Fixes
 
   * Fix test warnings when doing rake {test,spec} or script/test (#4078)
 
 ### Site Enhancements
+
   * Update normalize.css to v3.0.3. (#4085)
   * Update Font Awesome to v4.4.0. (#4086)
+  * Adds a note about installing the jekyll-gist gem to make gist tag work (#4101)
+  * Align hooks documentation with implementation (#4104)
+  * Add Jekyll Flickr Plugin to the list of third party plugins (#4111)
+  * Remove link to now-deleted blog post (#4125)
+  * Update the liquid syntax in the pagination docs (#4130)
+  * Add jekyll-language-plugin to plugins.md (#4134)
+  * Updated to reflect feedback in #4129 (#4137)
+  * Clarify assets.md based on feedback of #4129 (#4142)
+  * Re-correct the liquid syntax in the pagination docs (#4140)
 
 ## 3.0.0 / 2015-10-26
 

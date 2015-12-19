@@ -3,7 +3,7 @@
 [![Gem Version](https://img.shields.io/gem/v/jekyll.svg)](https://rubygems.org/gems/jekyll)
 [![Build Status](https://img.shields.io/travis/jekyll/jekyll/master.svg)](https://travis-ci.org/jekyll/jekyll)
 [![Code Climate](https://img.shields.io/codeclimate/github/jekyll/jekyll.svg)](https://codeclimate.com/github/jekyll/jekyll)
-[![Dependency Status](https://img.shields.io/gemnasium/jekyll/jekyll.svg)](https://gemnasium.com/jekyll/jekyll)
+[![Dependency Status](https://gemnasium.com/jekyll/jekyll.svg)](https://gemnasium.com/jekyll/jekyll)
 [![Security](https://hakiri.io/github/jekyll/jekyll/master.svg)](https://hakiri.io/github/jekyll/jekyll/master)
 
 By Tom Preston-Werner, Nick Quaranto, Parker Moore, and many [awesome contributors](https://github.com/jekyll/jekyll/graphs/contributors)!
@@ -13,6 +13,10 @@ Jekyll is a simple, blog-aware, static site generator perfect for personal, proj
 ## Philosophy
 
 Jekyll does what you tell it to do — no more, no less. It doesn't try to outsmart users by making bold assumptions, nor does it burden them with needless complexity and configuration. Put simply, Jekyll gets out of your way and allows you to concentrate on what truly matters: your content.
+
+## Having trouble with OS X El Capitan?
+
+See: http://jekyllrb.com/docs/troubleshooting/#jekyll-amp-mac-os-x-1011
 
 ## Getting Started
 

@@ -12,7 +12,7 @@ Jekyll’s growing use is producing a wide variety of tutorials, frameworks, ext
 
   Code example reuse, and keeping documentation up to date.
 
-- [Use FormKeep for Jekyll form backend and webhooks](https://formkeep.com/)
+- [Use FormKeep as a backend for forms (contact forms, hiring forms, etc.)](https://formkeep.com/guides/how-to-make-a-contact-form-in-jekyll?utm_source=github&utm_medium=jekyll-docs&utm_campaign=contact-form-jekyll)
 - [Use Simple Form to integrate a simple contact
   form](http://getsimpleform.com/)
 - [JekyllBootstrap.com](http://jekyllbootstrap.com)
@@ -44,5 +44,3 @@ A guide to implementing a tag cloud and per-tag content pages using Jekyll.
 - [Using your Rails layouts in Jekyll](http://numbers.brighterplanet.com/2010/08/09/sharing-rails-views-with-jekyll)
 
 - [Adding Ajax pagination to Jekyll](https://eduardoboucas.com/blog/2014/11/10/adding-ajax-pagination-to-jekyll.html)
-
-- [Using Jekyll’s Data Files to build a dynamic navbar](http://blog.jordanthornquest.com/post/119506660470/building-dynamic-navbars-in-jekyll)

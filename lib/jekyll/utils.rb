@@ -1,12 +1,17 @@
 module Jekyll
   module Utils extend self
     autoload :Platforms, 'jekyll/utils/platforms'
+    autoload :Ansi, "jekyll/utils/ansi"
 
     # Constants for use in #slugify
     SLUGIFY_MODES = %w{raw default pretty}
     SLUGIFY_RAW_REGEXP = Regexp.new('\\s+').freeze
     SLUGIFY_DEFAULT_REGEXP = Regexp.new('[^[:alnum:]]+').freeze
     SLUGIFY_PRETTY_REGEXP = Regexp.new("[^[:alnum:]._~!$&'()+,;=@]+").freeze
+
+    def strip_heredoc(str)
+      str.gsub(/^[ \t]{#{(str.scan(/^[ \t]*(?=\S)/).min || "").size}}/, "")
+    end
 
     # Non-destructive version of deep_merge_hashes! See that method.
     #
@@ -121,10 +126,12 @@ module Jekyll
     #
     # string - the filename or title to slugify
     # mode - how string is slugified
+    # cased - whether to replace all  uppercase letters with their
+    # lowercase counterparts
     #
-    # When mode is "none", return the given string in lowercase.
+    # When mode is "none", return the given string.
     #
-    # When mode is "raw", return the given string in lowercase,
+    # When mode is "raw", return the given string,
     # with every sequence of spaces characters replaced with a hyphen.
     #
     # When mode is "default" or nil, non-alphabetic characters are
@@ -133,6 +140,9 @@ module Jekyll
     # When mode is "pretty", some non-alphabetic characters (._~!$&'()+,;=@)
     # are not replaced with hyphen.
     #
+    # If cased is true, all uppercase letters in the result string are
+    # replaced with their lowercase counterparts.
+    #
     # Examples:
     #   slugify("The _config.yml file")
     #   # => "the-config-yml-file"
@@ -140,11 +150,17 @@ module Jekyll
     #   slugify("The _config.yml file", "pretty")
     #   # => "the-_config.yml-file"
     #
+    #   slugify("The _config.yml file", "pretty", true)
+    #   # => "The-_config.yml file"
+    #
     # Returns the slugified string.
-    def slugify(string, mode=nil)
+    def slugify(string, mode: nil, cased: false)
       mode ||= 'default'
       return nil if string.nil?
-      return string.downcase unless SLUGIFY_MODES.include?(mode)
+
+      unless SLUGIFY_MODES.include?(mode)
+        return cased ? string : string.downcase
+      end
 
       # Replace each character sequence with a hyphen
       re = case mode
@@ -158,13 +174,13 @@ module Jekyll
         SLUGIFY_PRETTY_REGEXP
       end
 
-      string.
+      slug = string.
         # Strip according to the mode
         gsub(re, '-').
         # Remove leading/trailing hyphen
-        gsub(/^\-|\-$/i, '').
-        # Downcase
-        downcase
+        gsub(/^\-|\-$/i, '')
+
+      cased ? slug : slug.downcase
     end
 
     # Add an appropriate suffix to template so that it matches the specified
@@ -205,6 +221,39 @@ module Jekyll
         template << ":output_ext" if permalink_style.to_s.end_with?(":output_ext")
       end
       template
+    end
+
+
+    # Work the same way as Dir.glob but seperating the input into two parts
+    # ('dir' + '/' + 'pattern') to make sure the first part('dir') does not act
+    # as a pattern.
+    #
+    # For example, Dir.glob("path[/*") always returns an empty array,
+    # because the method fails to find the closing pattern to '[' which is ']'
+    #
+    # Examples:
+    #   safe_glob("path[", "*")
+    #   # => ["path[/file1", "path[/file2"]
+    #
+    #   safe_glob("path", "*", File::FNM_DOTMATCH)
+    #   # => ["path/.", "path/..", "path/file1"]
+    #
+    #   safe_glob("path", ["**", "*"])
+    #   # => ["path[/file1", "path[/folder/file2"]
+    #
+    # dir      - the dir where glob will be executed under
+    #           (the dir will be included to each result)
+    # patterns - the patterns (or the pattern) which will be applied under the dir
+    # flags    - the flags which will be applied to the pattern
+    #
+    # Returns matched pathes
+    def safe_glob(dir, patterns, flags = 0)
+      return [] unless Dir.exist?(dir)
+      pattern = File.join(Array patterns)
+      return [dir] if pattern.empty?
+      Dir.chdir(dir) do
+        Dir.glob(pattern, flags).map { |f| File.join(dir, f) }
+      end
     end
 
   end

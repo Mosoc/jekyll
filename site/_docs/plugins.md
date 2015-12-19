@@ -32,10 +32,10 @@ Jekyll generates your site.
 values of the gem names of the plugins you'd like to use. An example:
 
 
-        gems: [jekyll-test-plugin, jekyll-jsonify, jekyll-assets]
+        gems: [jekyll-coffeescript, jekyll-watch, jekyll-assets]
         # This will require each of these gems automatically.
 
-    Then install your plugins using `gem install jekyll-test-plugin jekyll-jsonify jekyll-assets`
+    Then install your plugins using `gem install jekyll-coffeescript jekyll-watch jekyll-assets`
 
 3. Add the relevant plugins to a Bundler group in your `Gemfile`. An
     example:
@@ -491,7 +491,7 @@ custom functionality every time Jekyll renders a post, you could register a
 hook like this:
 
 {% highlight ruby %}
-Jekyll::Hooks.register :post, :post_render do |post|
+Jekyll::Hooks.register :posts, :post_render do |post|
   # code to call after Jekyll renders a post
 end
 {% endhighlight %}
@@ -524,6 +524,17 @@ The complete list of available hooks is below:
       </td>
       <td>
         <p>Just after site reset</p>
+      </td>
+    </tr>
+    <tr>
+      <td>
+        <p><code>:site</code></p>
+      </td>
+      <td>
+        <p><code>:post_read</code></p>
+      </td>
+      <td>
+        <p>After site data has been read and loaded from disk</p>
       </td>
     </tr>
     <tr>
@@ -724,6 +735,7 @@ LESS.js files during generation.
 - [Jekyll Auto Image by Merlos](https://github.com/merlos/jekyll-auto-image): Gets the first image of a post. Useful to list your posts with images or to add [twitter cards](https://dev.twitter.com/cards/overview) to your site.
 - [Jekyll Portfolio Generator by Shannon Babincsak](https://github.com/codeinpink/jekyll-portfolio-generator): Generates project pages and computes related projects out of project data files.
 - [Jekyll-Umlauts by Arne Gockeln](https://github.com/webchef/jekyll-umlauts): This generator replaces all german umlauts (äöüß) case sensitive with html.
+- [Jekyll Flickr Plugin](https://github.com/lawmurray/indii-jekyll-flickr) by [Lawrence Murray](http://www.indii.org): Generates posts for photos uploaded to a Flickr photostream.
 
 #### Converters
 
@@ -768,6 +780,9 @@ LESS.js files during generation.
 - [Jekyll Thumbnail Filter](https://github.com/matallo/jekyll-thumbnail-filter): Related posts thumbnail filter.
 - [Jekyll-Smartify](https://github.com/pathawks/jekyll-smartify): SmartyPants filter. Make &quot;quotes&quot; &ldquo;curly&rdquo;
 - [liquid-md5](https://github.com/pathawks/liquid-md5): Returns an MD5 hash. Helpful for generating Gravatars in templates.
+- [jekyll-roman](https://github.com/paulrobertlloyd/jekyll-roman): A liquid filter for Jekyll that converts numbers into Roman numerals.
+- [jekyll-typogrify](https://github.com/myles/jekyll-typogrify): A Jekyll plugin that brings the functions of [typogruby](http://avdgaag.github.io/typogruby/).
+- [Jekyll Email Protect](https://github.com/vwochnik/jekyll-email-protect): Email protection liquid filter for Jekyll
 
 #### Tags
 
@@ -823,6 +838,8 @@ LESS.js files during generation.
 - [Fetch remote file content](https://github.com/dimitri-koenig/jekyll-plugins) by [Dimitri König](https://www.dimitrikoenig.net/): Using `remote_file_content` tag you can fetch the content of a remote file and include it as if you would put the content right into your markdown file yourself. Very useful for including code from github repo's to always have a current repo version.
 - [jekyll-asciinema](https://github.com/mnuessler/jekyll-asciinema): A tag for embedding asciicasts recorded with [asciinema](https://asciinema.org) in your Jekyll pages.
 - [Jekyll-Youtube](https://github.com/dommmel/jekyll-youtube)  A Liquid tag that embeds Youtube videos. The default emded markup is responsive but you can also specify your own by using an include/partial.
+- [Jekyll Flickr Plugin](https://github.com/lawmurray/indii-jekyll-flickr) by [Lawrence Murray](http://www.indii.org): Embeds Flickr photosets (albums) as a gallery of thumbnails, with lightbox links to larger images.
+- [jekyll-figure](https://github.com/paulrobertlloyd/jekyll-figure): A liquid tag for Jekyll that generates `<figure>` elements.
 
 #### Collections
 
@@ -858,6 +875,8 @@ LESS.js files during generation.
 - [remote-include](http://www.northfieldx.co.uk/remote-include/): Includes files using remote URLs
 - [jekyll-minifier](https://github.com/digitalsparky/jekyll-minifier): Minifies HTML, XML, CSS, and Javascript both inline and as separate files utilising yui-compressor and htmlcompressor.
 - [Jekyll views router](https://bitbucket.org/nyufac/jekyll-views-router): Simple router between generator plugins and templates.
+- [Jekyll Language Plugin](https://github.com/vwochnik/jekyll-language-plugin): Jekyll 3.0-compatible multi-language plugin for posts, pages and includes.
+- [Jekyll Deploy](https://github.com/vwochnik/jekyll-deploy): Adds a `deploy` sub-command to Jekyll.
 
 #### Editors
 

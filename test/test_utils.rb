@@ -146,23 +146,38 @@ class TestUtils < JekyllUnitTest
     end
 
     should "not change behaviour if mode is default" do
-      assert_equal "the-config-yml-file", Utils.slugify("The _config.yml file?", "default")
+      assert_equal "the-config-yml-file", Utils.slugify("The _config.yml file?", mode: "default")
     end
 
     should "not change behaviour if mode is nil" do
-      assert_equal "the-config-yml-file", Utils.slugify("The _config.yml file?", nil)
+      assert_equal "the-config-yml-file", Utils.slugify("The _config.yml file?")
     end
 
     should "not replace period and underscore if mode is pretty" do
-      assert_equal "the-_config.yml-file", Utils.slugify("The _config.yml file?", "pretty")
+      assert_equal "the-_config.yml-file", Utils.slugify("The _config.yml file?", mode: "pretty")
     end
 
     should "only replace whitespace if mode is raw" do
-      assert_equal "the-_config.yml-file?", Utils.slugify("The _config.yml file?", "raw")
+      assert_equal "the-_config.yml-file?", Utils.slugify("The _config.yml file?", mode: "raw")
     end
 
     should "return the given string if mode is none" do
-      assert_equal "the _config.yml file?", Utils.slugify("The _config.yml file?", "none")
+      assert_equal "the _config.yml file?", Utils.slugify("The _config.yml file?", mode: "none")
+    end
+
+    should "Keep all uppercase letters if cased is true" do
+      assert_equal "Working-with-drafts", Utils.slugify("Working with drafts", cased: true)
+      assert_equal "Basic-Usage", Utils.slugify("Basic   Usage", cased: true)
+      assert_equal "Working-with-drafts", Utils.slugify("  Working with drafts   ", cased: true)
+      assert_equal "So-what-is-Jekyll-exactly", Utils.slugify("So what is Jekyll, exactly?", cased: true)
+      assert_equal "Pre-releases", Utils.slugify("Pre-releases", cased: true)
+      assert_equal "The-config-yml-file", Utils.slugify("The _config.yml file", cased: true)
+      assert_equal "Customizing-Git-Git-Hooks", Utils.slugify("Customizing Git - Git Hooks", cased: true)
+      assert_equal "The-config-yml-file", Utils.slugify("The _config.yml file?", mode: "default", cased: true)
+      assert_equal "The-config-yml-file", Utils.slugify("The _config.yml file?", cased: true)
+      assert_equal "The-_config.yml-file", Utils.slugify("The _config.yml file?", mode: "pretty", cased: true)
+      assert_equal "The-_config.yml-file?", Utils.slugify("The _config.yml file?", mode: "raw", cased: true)
+      assert_equal "The _config.yml file?", Utils.slugify("The _config.yml file?", mode: "none", cased: true)
     end
   end
 
@@ -180,4 +195,43 @@ class TestUtils < JekyllUnitTest
       assert_equal "/:basename", Utils.add_permalink_suffix("/:basename", "/:title")
     end
   end
+
+  context "The \`Utils.safe_glob\` method" do
+    should "not apply pattern to the dir" do
+      dir = "test/safe_glob_test["
+      assert_equal [], Dir.glob(dir + "/*")
+      assert_equal ["test/safe_glob_test[/find_me.txt"], Utils.safe_glob(dir, "*")
+    end
+
+    should "return the same data to #glob" do
+      dir = "test"
+      assert_equal Dir.glob(dir + "/*"), Utils.safe_glob(dir, "*")
+      assert_equal Dir.glob(dir + "/**/*"), Utils.safe_glob(dir, "**/*")
+    end
+
+    should "return the same data to #glob if dir is not found" do
+      dir = "dir_not_exist"
+      assert_equal [], Utils.safe_glob(dir, "*")
+      assert_equal Dir.glob(dir + "/*"), Utils.safe_glob(dir, "*")
+    end
+
+    should "return the same data to #glob if pattern is blank" do
+      dir = "test"
+      assert_equal [dir], Utils.safe_glob(dir, "")
+      assert_equal Dir.glob(dir), Utils.safe_glob(dir, "")
+      assert_equal Dir.glob(dir), Utils.safe_glob(dir, nil)
+    end
+
+    should "return the same data to #glob if flag is given" do
+      dir = "test"
+      assert_equal Dir.glob(dir + "/*", File::FNM_DOTMATCH),
+                   Utils.safe_glob(dir, "*", File::FNM_DOTMATCH)
+    end
+
+    should "support pattern as an array to support windows" do
+      dir = "test"
+      assert_equal Dir.glob(dir + "/**/*"), Utils.safe_glob(dir, ["**", "*"])
+    end
+  end
+
 end

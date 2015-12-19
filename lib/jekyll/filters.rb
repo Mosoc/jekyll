@@ -45,7 +45,7 @@ module Jekyll
     # Returns the given filename or title as a lowercase URL String.
     # See Utils.slugify for more detail.
     def slugify(input, mode=nil)
-      Utils.slugify(input, mode)
+      Utils.slugify(input, mode: mode)
     end
 
     # Format a date in short format e.g. "27 Jan 2011".
@@ -279,6 +279,16 @@ module Jekyll
       new_ary = array.dup
       new_ary.unshift(input)
       new_ary
+    end
+
+    def sample(input, num = 1)
+      return input unless input.respond_to?(:sample)
+      n = num.to_i rescue 1
+      if n == 1
+        input.sample
+      else
+        input.sample(n)
+      end
     end
 
     # Convert an object into its String representation for debugging
